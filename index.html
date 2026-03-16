@@ -641,7 +641,36 @@
     revealEls.forEach(el => observer.observe(el));
   }
 
-  // Waitlist
+  // Waitlist — opens WhatsApp with pre-filled message
   function joinWaitlist() {
-    const email = document.getElementById('email-input').value;
-    if (!email || !email.inclu
+    const emailInput = document.getElementById('email-input');
+    const email = emailInput.value.trim();
+
+    if (!email || !email.includes('@')) {
+      emailInput.style.borderColor = '#e85d04';
+      emailInput.placeholder = 'Enter a valid email first';
+      setTimeout(() => {
+        emailInput.style.borderColor = 'rgba(255,255,255,0.1)';
+        emailInput.placeholder = 'your@email.com';
+      }, 2500);
+      return;
+    }
+
+    // Show success message immediately
+    document.querySelector('.waitlist-form').style.display = 'none';
+    document.getElementById('success-msg').style.display = 'block';
+    document.getElementById('success-msg').textContent = '✓ Opening WhatsApp to connect with Sreenath...';
+
+    // Build WhatsApp message
+    const phone = '919491219300';
+    const message = 'Hi Sreenath! I just joined the 18spar waitlist 🎉\n\nMy email: ' + email + '\n\nI am interested in your web design services. Looking forward to hearing from you!';
+    const whatsappURL = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(message);
+
+    // Open WhatsApp after short delay
+    setTimeout(function() {
+      window.open(whatsappURL, '_blank');
+    }, 800);
+  }
+</script>
+</body>
+</html>
